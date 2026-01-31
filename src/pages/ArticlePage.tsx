@@ -5,6 +5,7 @@ import { samplePosts } from '../data/sampleData';
 import { articleContent } from '../data/articleContent';
 import { categories } from '../data/categories';
 import ReactMarkdown from 'react-markdown';
+import BlogCard from '../components/BlogCard';
 
 export default function ArticlePage() {
   const { articleId } = useParams<{ articleId: string }>();
@@ -105,16 +106,12 @@ export default function ArticlePage() {
       <section className="related-articles">
         <div className="container">
           <h2 className="section-title">More from {category?.name}</h2>
-          <div className="related-grid">
+          <div className="blog-grid">
             {samplePosts
               .filter(p => p.category === article.category && p.id !== article.id)
               .slice(0, 3)
               .map(post => (
-                <Link to={`/article/${post.id}`} key={post.id} className="related-card">
-                  <img src={post.imageUrl} alt={post.title} />
-                  <h3>{post.title}</h3>
-                  <p>{post.readTime}</p>
-                </Link>
+                <BlogCard key={post.id} post={post} />
               ))}
           </div>
         </div>
