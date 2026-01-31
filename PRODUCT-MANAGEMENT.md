@@ -219,11 +219,12 @@ See Supabase docs for adding authentication.
 
 When deploying to Netlify/Vercel:
 
-1. Add environment variables in deployment settings:
+1. **Add environment variables** in the host’s dashboard (your local `.env` is not deployed):
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_ADMIN_PASSWORD` — same value as in your `.env`; required for admin login in production
 
-2. Your database works automatically!
+2. **Redeploy** after adding or changing variables (Vite bakes them in at build time).
 
 3. Access admin at: `https://yoursite.com/admin`
 
