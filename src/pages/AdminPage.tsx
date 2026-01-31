@@ -40,7 +40,7 @@ export default function AdminPage() {
     }
   }, []);
 
-  const handleLogin = (password: string) => {
+  const handleLogin = (_password: string) => {
     setIsAuthenticated(true);
     checkSupabaseConfig();
   };

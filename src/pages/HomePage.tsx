@@ -53,7 +53,7 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-100px" }}
             className="categories-grid"
           >
-            {categories.map((category, index) => (
+            {categories.map((category) => (
               <motion.div key={category.id} variants={itemVariants}>
                 <CategoryCard category={category} />
               </motion.div>
@@ -79,7 +79,7 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-100px" }}
             className="blog-grid"
           >
-            {latestPosts.map((post, index) => (
+            {latestPosts.map((post) => (
               <motion.div key={post.id} variants={itemVariants}>
                 <BlogCard post={post} />
               </motion.div>
@@ -108,7 +108,7 @@ export default function HomePage() {
               viewport={{ once: true, margin: "-100px" }}
               className="products-grid"
             >
-              {featuredProducts.map((product, index) => (
+              {featuredProducts.map((product) => (
                 <motion.div key={product.id} variants={itemVariants}>
                   <ProductCard product={product} />
                 </motion.div>

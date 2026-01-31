@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import GradientText from './GradientText';
-import AnimatedSection from './AnimatedSection';
 
 export default function Hero() {
   const containerVariants = {
@@ -21,7 +20,7 @@ export default function Hero() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       },
     },
   };
@@ -38,7 +37,7 @@ export default function Hero() {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "linear",
+            ease: "linear" as const,
           }}
           className="absolute -top-40 -left-40 w-96 h-96 bg-primary-pink/10 rounded-full blur-3xl"
         />
@@ -50,7 +49,7 @@ export default function Hero() {
           transition={{
             duration: 15,
             repeat: Infinity,
-            ease: "linear",
+            ease: "linear" as const,
           }}
           className="absolute -bottom-40 -right-40 w-96 h-96 bg-primary-teal/10 rounded-full blur-3xl"
         />
@@ -78,7 +77,7 @@ export default function Hero() {
             'Newborn Care',
             'Toddler Development',
             'Product Reviews',
-          ].map((badge, index) => (
+          ].map((badge) => (
             <motion.span
               key={badge}
               className="badge"

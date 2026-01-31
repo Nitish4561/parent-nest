@@ -13,7 +13,7 @@ interface ShimmerButtonProps {
 export default function ShimmerButton({ 
   children, 
   className, 
-  shimmerColor = '#ffffff', 
+  shimmerColor: _shimmerColor = '#ffffff', 
   onClick,
   href 
 }: ShimmerButtonProps) {
