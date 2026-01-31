@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import CategoryCard from '../components/CategoryCard';
 import BlogCard from '../components/BlogCard';
-import ProductCard from '../components/ProductCard';
+import ProductCarousel from '../components/ProductCarousel';
 import AnimatedSection from '../components/AnimatedSection';
 import { categories } from '../data/categories';
 import { samplePosts } from '../data/sampleData';
@@ -12,7 +12,6 @@ import { useProducts } from '../hooks/useProducts';
 export default function HomePage() {
   const { products, loading: productsLoading } = useProducts();
   const latestPosts = samplePosts.slice(0, 6);
-  const featuredProducts = products.slice(0, 3);
 
   useEffect(() => {
     if (window.location.hash === '#recommended-products') {
@@ -108,20 +107,8 @@ export default function HomePage() {
 
           {productsLoading ? (
             <p className="empty-state">Loading products...</p>
-          ) : featuredProducts.length > 0 ? (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="products-grid"
-            >
-              {featuredProducts.map((product) => (
-                <motion.div key={product.id} variants={itemVariants}>
-                  <ProductCard product={product} />
-                </motion.div>
-              ))}
-            </motion.div>
+          ) : products.length > 0 ? (
+            <ProductCarousel products={products} />
           ) : (
             <p className="empty-state">No products yet. Add some from the admin!</p>
           )}

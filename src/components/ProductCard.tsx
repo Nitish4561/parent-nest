@@ -71,7 +71,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       
       <div className="product-content">
         <h4 className="product-name">
-          <Link to={`/product/${product.id}`} className="product-name-link">
+          <Link
+            to={`/product/${product.id}`}
+            className="product-name-link"
+            title={product.name}
+          >
             {product.name}
           </Link>
         </h4>
