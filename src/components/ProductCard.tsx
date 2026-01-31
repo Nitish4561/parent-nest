@@ -1,22 +1,49 @@
-import { Star, ExternalLink } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-import ShimmerButton from './ShimmerButton';
+import RainbowButton from './RainbowButton';
 import type { AmazonProduct } from '../types';
 
 interface ProductCardProps {
   product: AmazonProduct;
 }
 
+/** Format price for Indian Rupee (₹) with Indian number formatting */
+function formatPriceINR(price: string): string {
+  if (!price || typeof price !== 'string') return '₹0';
+  const numeric = price.replace(/[^\d.]/g, '');
+  const num = parseFloat(numeric);
+  if (Number.isNaN(num)) return price.startsWith('₹') ? price : `₹${price}`;
+  const hasDecimals = numeric.includes('.');
+  const formatted = num.toLocaleString('en-IN', {
+    maximumFractionDigits: hasDecimals ? 2 : 0,
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+  });
+  return `₹${formatted}`;
+}
+
 export default function ProductCard({ product }: ProductCardProps) {
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        size={16}
-        fill={i < Math.floor(rating) ? '#FFB03B' : 'none'}
-        color={i < rating ? '#FFB03B' : '#ddd'}
-      />
-    ));
+    const fullStars = Math.floor(rating);
+    const fraction = rating % 1;
+    const hasPartialStar = fraction > 0;
+    const partialFill = fraction;
+
+    return Array.from({ length: 5 }, (_, i) => {
+      if (i < fullStars) {
+        return <Star key={i} size={16} fill="#FFB03B" color="#FFB03B" />;
+      }
+      if (i === fullStars && hasPartialStar) {
+        return (
+          <span key={i} className="star-half-wrapper" title={`${rating}`}>
+            <Star size={16} fill="none" color="#ddd" />
+            <span className="star-half-fill" style={{ width: `${partialFill * 100}%` }}>
+              <Star size={16} fill="#FFB03B" color="#FFB03B" />
+            </span>
+          </span>
+        );
+      }
+      return <Star key={i} size={16} fill="none" color="#ddd" />;
+    });
   };
 
   return (
@@ -42,7 +69,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       
       <div className="product-content">
-        <h4 className="product-name">{product.name}</h4>
+        <h4 className="product-name">
+          <a
+            href={product.affiliateLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="product-name-link"
+          >
+            {product.name}
+          </a>
+        </h4>
         <p className="product-description">{product.description}</p>
         
         <div className="product-rating">
@@ -55,15 +91,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="product-price"
             whileHover={{ scale: 1.1 }}
           >
-            {product.price}
+            {formatPriceINR(product.price)}
           </motion.span>
-          <ShimmerButton
-            href={product.affiliateLink}
-            className="bg-[#FF6B9D] hover:bg-[#FF4D82]"
-          >
-            <ExternalLink size={14} className="inline mr-1" />
-            View on Amazon
-          </ShimmerButton>
+          <RainbowButton href={product.affiliateLink} variant="dark" size="sm" className="font-family-inter p-2">
+          Shop on Amazon
+          </RainbowButton>
         </div>
       </div>
     </motion.div>

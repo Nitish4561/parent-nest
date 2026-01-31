@@ -54,7 +54,7 @@ export default function HomePage() {
             className="categories-grid"
           >
             {categories.map((category) => (
-              <motion.div key={category.id} variants={itemVariants}>
+              <motion.div key={category.id} variants={itemVariants} className="category-card-wrapper">
                 <CategoryCard category={category} />
               </motion.div>
             ))}

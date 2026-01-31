@@ -248,6 +248,10 @@ export default function AdminPage() {
               Set up your free database to start adding products
             </p>
 
+            <div className="setup-production-hint">
+              <strong>Already set up locally?</strong> On Vercel/Netlify, add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> in your project’s Environment Variables, then redeploy. The Add Product form will appear after that.
+            </div>
+
             <div className="setup-steps">
               <h2>Quick Setup (10 minutes, FREE forever)</h2>
               

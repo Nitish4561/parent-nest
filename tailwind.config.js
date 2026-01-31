@@ -17,6 +17,7 @@ export default {
         'fade-in': 'fadeIn 0.6s ease-out',
         'slide-up': 'slideUp 0.6s ease-out',
         'shimmer': 'shimmer 2s linear infinite',
+        'rainbow': 'rainbow 3s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -30,6 +31,10 @@ export default {
         shimmer: {
           '0%': { backgroundPosition: '-1000px 0' },
           '100%': { backgroundPosition: '1000px 0' },
+        },
+        rainbow: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
         },
       },
     },
