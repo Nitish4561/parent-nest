@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, Edit, Database, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase, isSupabaseConfigured as checkSupabaseSetup, type Product } from '../lib/supabase';
 import { categories } from '../data/categories';
+import { samplePosts } from '../data/sampleData';
 import AdminLogin from '../components/AdminLogin';
 
 export default function AdminPage() {
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -21,6 +23,7 @@ export default function AdminPage() {
     affiliate_link: '',
     category: 'to-be-parents',
     rating: 5,
+    article_ids: '[]',
   });
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -145,16 +148,32 @@ export default function AdminPage() {
       const productData = {
         ...formData,
         image_url: imageUrl,
+        article_ids: formData.article_ids ?? '[]',
       };
 
-      if (editingProduct?.id) {
-        // Update existing product
-        const { error } = await supabase
+      if (editingProduct?.id !== undefined && editingProduct?.id !== null) {
+        // Update existing product – omit id and created_at so we don't touch primary key or timestamp
+        const productId = Number(editingProduct.id);
+        const updatePayload = {
+          name: productData.name,
+          description: productData.description,
+          image_url: productData.image_url,
+          price: productData.price,
+          affiliate_link: productData.affiliate_link,
+          category: productData.category,
+          rating: productData.rating,
+          article_ids: productData.article_ids ?? '[]',
+        };
+        const { data, error } = await supabase
           .from('products')
-          .update(productData)
-          .eq('id', editingProduct.id);
+          .update(updatePayload)
+          .eq('id', productId)
+          .select('id');
 
         if (error) throw error;
+        if (!data || data.length === 0) {
+          throw new Error('Update did not match any product. The product may have been deleted.');
+        }
         alert('Product updated successfully!');
       } else {
         // Add new product
@@ -201,9 +220,46 @@ export default function AdminPage() {
   };
 
   const handleEdit = (product: Product) => {
-    setEditingProduct(product);
-    setFormData(product);
+    // Normalize: Supabase can return id as number or string, ensure we have a consistent Product
+    const normalized: Product = {
+      ...product,
+      id: product.id != null ? Number(product.id) : undefined,
+      article_ids: product.article_ids ?? '[]',
+    };
+    setEditingProduct(normalized);
+    setFormData({
+      name: normalized.name,
+      description: normalized.description ?? '',
+      image_url: normalized.image_url ?? '',
+      price: normalized.price ?? '',
+      affiliate_link: normalized.affiliate_link ?? '',
+      category: normalized.category ?? 'to-be-parents',
+      rating: typeof normalized.rating === 'number' ? normalized.rating : 5,
+      article_ids: normalized.article_ids ?? '[]',
+    });
+    setSelectedImage(null);
+    setImagePreview('');
     setShowForm(true);
+    // Scroll form into view so user sees edit mode
+    requestAnimationFrame(() => {
+      formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
+  const selectedArticleIds = ((): string[] => {
+    try {
+      const parsed = JSON.parse(formData.article_ids ?? '[]');
+      return Array.isArray(parsed) ? parsed.map(String) : [];
+    } catch {
+      return [];
+    }
+  })();
+
+  const toggleArticleForProduct = (articleId: string) => {
+    const next = selectedArticleIds.includes(articleId)
+      ? selectedArticleIds.filter((id) => id !== articleId)
+      : [...selectedArticleIds, articleId];
+    setFormData({ ...formData, article_ids: JSON.stringify(next) });
   };
 
   const resetForm = () => {
@@ -215,6 +271,7 @@ export default function AdminPage() {
       affiliate_link: '',
       category: 'to-be-parents',
       rating: 5,
+      article_ids: '[]',
     });
     setEditingProduct(null);
     setShowForm(false);
@@ -324,7 +381,26 @@ export default function AdminPage() {
           <div className="admin-header-actions">
             <motion.button
               className="admin-add-button"
-              onClick={() => setShowForm(!showForm)}
+              onClick={() => {
+                if (!showForm) {
+                  setFormData({
+                    name: '',
+                    description: '',
+                    image_url: '',
+                    price: '',
+                    affiliate_link: '',
+                    category: 'to-be-parents',
+                    rating: 5,
+                    article_ids: '[]',
+                  });
+                  setEditingProduct(null);
+                  setSelectedImage(null);
+                  setImagePreview('');
+                  setShowForm(true);
+                } else {
+                  setShowForm(false);
+                }
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -341,6 +417,7 @@ export default function AdminPage() {
         {/* Add/Edit Form */}
         {showForm && (
           <motion.div
+            ref={formContainerRef}
             className="admin-form-container"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -453,6 +530,23 @@ export default function AdminPage() {
                   </select>
                 </div>
 
+                <div className="form-group full-width">
+                  <label>Link to articles (optional)</label>
+                  <p className="field-hint">Show this product on these article pages</p>
+                  <div className="article-multiselect">
+                    {samplePosts.map((post) => (
+                      <label key={post.id} className="article-multiselect-item">
+                        <input
+                          type="checkbox"
+                          checked={selectedArticleIds.includes(post.id)}
+                          onChange={() => toggleArticleForProduct(post.id)}
+                        />
+                        <span>{post.title}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="form-group">
                   <label>Rating (1-5) *</label>
                   <input
@@ -510,6 +604,7 @@ export default function AdminPage() {
 
                   <div className="admin-product-actions">
                     <button
+                      type="button"
                       onClick={() => handleEdit(product)}
                       className="edit-button"
                     >
@@ -517,6 +612,7 @@ export default function AdminPage() {
                       Edit
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(product.id!)}
                       className="delete-button"
                     >

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -6,12 +7,19 @@ import { articleContent } from '../data/articleContent';
 import { categories } from '../data/categories';
 import ReactMarkdown from 'react-markdown';
 import BlogCard from '../components/BlogCard';
+import ProductCard from '../components/ProductCard';
+import ProductCarousel from '../components/ProductCarousel';
+import { useProducts } from '../hooks/useProducts';
 
 export default function ArticlePage() {
   const { articleId } = useParams<{ articleId: string }>();
-  
+  const { products, loading: productsLoading } = useProducts();
   const article = samplePosts.find(p => p.id === articleId);
-  
+  const articleProducts = useMemo(
+    () => (article ? products.filter((p) => p.articleIds?.includes(article.id)) : []),
+    [products, article]
+  );
+
   if (!article) {
     return (
       <div className="container" style={{ padding: '4rem 1rem', textAlign: 'center' }}>
@@ -101,6 +109,24 @@ export default function ArticlePage() {
           </motion.div>
         </div>
       </article>
+
+      {/* Products linked to this article */}
+      {!productsLoading && articleProducts.length > 0 && (
+        <section className="article-products-section">
+          <div className="container">
+            <h2 className="section-title">Related products</h2>
+            {articleProducts.length > 3 ? (
+              <ProductCarousel products={articleProducts} />
+            ) : (
+              <div className="products-grid">
+                {articleProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Related Articles */}
       <section className="related-articles">

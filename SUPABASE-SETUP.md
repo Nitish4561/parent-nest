@@ -82,6 +82,16 @@ CREATE TABLE products (
 );
 ```
 
+### Add article links column (for linking products to articles)
+
+To show products on specific article pages, add the `article_ids` column. In **SQL Editor** run:
+
+```sql
+ALTER TABLE products ADD COLUMN IF NOT EXISTS article_ids TEXT DEFAULT '[]';
+```
+
+This stores a JSON array of article IDs (e.g. `["1","2"]`) so each product can be linked to one or more articles.
+
 ## Step 5: Get Your API Keys
 
 1. Click **"Settings"** (gear icon) in the left sidebar

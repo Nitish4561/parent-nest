@@ -18,6 +18,8 @@ export interface AmazonProduct {
   affiliateLink: string;
   category: 'to-be-parents' | 'new-parents' | 'toddler-parents';
   rating: number;
+  /** Article IDs this product is linked to (shown on those article pages) */
+  articleIds?: string[];
 }
 
 export interface Category {

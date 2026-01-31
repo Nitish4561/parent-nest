@@ -1284,6 +1284,11 @@ a.block {
   }
 }
 
+.article-products-section {
+  padding: 4rem 1rem 5rem;
+  background: var(--bg-light);
+}
+
 .related-articles {
   padding: 4rem 1rem;
   background: var(--bg-light);
@@ -1681,6 +1686,33 @@ a.block {
   font-size: 0.85rem;
   color: var(--light-text);
   margin-top: 0.5rem;
+}
+
+.article-multiselect {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: var(--bg-light);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.article-multiselect-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.article-multiselect-item input {
+  flex-shrink: 0;
+}
+
+.article-multiselect-item span {
+  color: var(--dark-text);
 }
 
 .submit-button:disabled,

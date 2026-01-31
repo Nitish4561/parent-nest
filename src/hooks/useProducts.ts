@@ -34,6 +34,16 @@ export function useProducts(category?: string) {
         return;
       }
 
+      const parseArticleIds = (raw: string | null | undefined): string[] => {
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed.map(String) : [];
+        } catch {
+          return [];
+        }
+      };
+
       const formattedData = (data || []).map((p: Product) => ({
         id: p.id?.toString(),
         name: p.name,
@@ -43,6 +53,7 @@ export function useProducts(category?: string) {
         affiliateLink: p.affiliate_link,
         category: p.category,
         rating: p.rating ?? 0,
+        articleIds: parseArticleIds(p.article_ids),
       }));
 
       setProducts(formattedData);

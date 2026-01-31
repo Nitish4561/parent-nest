@@ -33,5 +33,7 @@ export interface Product {
   affiliate_link: string;
   category: 'to-be-parents' | 'new-parents' | 'toddler-parents';
   rating: number;
+  /** JSON array of article IDs this product is linked to, e.g. '["1","2"]' */
+  article_ids?: string;
   created_at?: string;
 }
