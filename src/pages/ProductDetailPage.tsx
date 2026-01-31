@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
             </div>
             <p className="product-detail-price">{formatPriceINR(product.price)}</p>
             <RainbowButton href={product.affiliateLink} variant="dark" size="lg">
-              View on Amazon
+            Shop on Amazon
             </RainbowButton>
           </div>
         </motion.article>
