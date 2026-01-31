@@ -75,8 +75,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </Link>
         </h4>
-        <p className="product-description">{product.description}</p>
-        
+
         <div className="product-rating">
           {renderStars(product.rating)}
           <span className="rating-value">{product.rating}</span>
