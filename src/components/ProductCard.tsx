@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import RainbowButton from './RainbowButton';
@@ -70,14 +71,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       
       <div className="product-content">
         <h4 className="product-name">
-          <a
-            href={product.affiliateLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="product-name-link"
-          >
+          <Link to={`/product/${product.id}`} className="product-name-link">
             {product.name}
-          </a>
+          </Link>
         </h4>
         <p className="product-description">{product.description}</p>
         

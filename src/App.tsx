@@ -4,6 +4,8 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import ArticlePage from './pages/ArticlePage';
+import ProductsPage from './pages/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import AdminPage from './pages/AdminPage';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/category/:categoryId" element={<CategoryPage />} />
             <Route path="/article/:articleId" element={<ArticlePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/product/:productId" element={<ProductDetailPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import CategoryCard from '../components/CategoryCard';
@@ -12,6 +13,13 @@ export default function HomePage() {
   const { products, loading: productsLoading } = useProducts();
   const latestPosts = samplePosts.slice(0, 6);
   const featuredProducts = products.slice(0, 3);
+
+  useEffect(() => {
+    if (window.location.hash === '#recommended-products') {
+      const el = document.getElementById('recommended-products');
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -88,8 +96,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="section">
+      {/* Featured Products - shareable link for Pinterest: yoursite.com/#recommended-products or yoursite.com/products */}
+      <section id="recommended-products" className="section">
         <div className="container">
           <AnimatedSection>
             <h2 className="section-title">Recommended Products</h2>
