@@ -73,7 +73,7 @@ export default function HomePage() {
       <section className="section section-alt">
         <div className="container">
           <AnimatedSection>
-            <h2 className="section-title">Latest Articles</h2>
+            <h2 className="section-title">The Parenting Corner</h2>
             <p className="section-subtitle">
               Fresh insights and tips from parenting experts
             </p>
