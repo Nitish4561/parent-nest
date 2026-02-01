@@ -1507,68 +1507,197 @@ a.block {
   margin-top: 3rem;
 }
 
-.admin-product-card {
+.admin-table-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-table-header .section-title {
+  margin-bottom: 0;
+}
+
+.admin-search-wrap {
+  margin-left: auto;
+}
+
+.admin-search-wrap {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.admin-search-wrap:focus-within {
+  border-color: var(--primary-teal);
+  box-shadow: 0 0 0 2px rgba(0, 180, 171, 0.2);
+}
+
+.admin-search-icon {
+  color: var(--light-text);
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.admin-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+.admin-search-input::placeholder {
+  color: var(--light-text);
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
   background: white;
   border-radius: 1rem;
-  overflow: hidden;
   box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
+  border: 1px solid var(--border-color);
 }
 
-.admin-product-image {
+.admin-products-table {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  border-collapse: collapse;
+  font-size: 0.9rem;
 }
 
-.admin-product-content {
-  padding: 1.5rem;
-  flex: 1;
+.admin-products-table th,
+.admin-products-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.admin-product-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--dark-text);
-}
-
-.admin-product-category {
-  display: inline-block;
-  background: var(--primary-teal);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 0.8rem;
+.admin-products-table th {
+  background: var(--bg-light);
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  color: var(--dark-text);
+  white-space: nowrap;
 }
 
-.admin-product-description {
+.admin-products-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.admin-products-table .col-no {
+  width: 3rem;
+  font-weight: 600;
+  color: var(--light-text);
+}
+
+.admin-products-table .col-image {
+  width: 60px;
+  padding: 0.5rem;
+  vertical-align: middle;
+}
+
+.admin-products-table .col-image img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.35rem;
+  display: block;
+}
+
+.admin-products-table .col-image .no-image {
   color: var(--light-text);
   font-size: 0.9rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.5;
 }
 
-.admin-product-price {
-  font-size: 1.25rem;
-  font-weight: 700;
+.admin-products-table .col-title {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-products-table .col-category {
+  white-space: nowrap;
   color: var(--primary-teal);
-  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
-.admin-product-rating {
-  font-size: 0.9rem;
+.admin-products-table .col-description {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--light-text);
 }
 
-.admin-product-actions {
+.admin-products-table .col-price {
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--primary-teal);
+}
+
+.admin-products-table .col-date {
+  white-space: nowrap;
+  color: var(--light-text);
+}
+
+.admin-products-table .col-rating {
+  white-space: nowrap;
+}
+
+.admin-products-table .col-actions {
+  white-space: nowrap;
   display: flex;
   gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.admin-products-table .col-actions .edit-button,
+.admin-products-table .col-actions .delete-button {
+  flex: none;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--primary-teal);
+  color: white;
+  border-color: var(--primary-teal);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: var(--light-text);
 }
 
 .edit-button,

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Edit, Database, LogOut } from 'lucide-react';
+import { Plus, Trash2, Edit, Database, LogOut, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase, isSupabaseConfigured as checkSupabaseSetup, type Product } from '../lib/supabase';
 import { categories } from '../data/categories';
@@ -29,6 +29,32 @@ export default function AdminPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [uploading, setUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const PRODUCTS_PER_PAGE = 10;
+
+  const filteredProducts = products.filter((p) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.trim().toLowerCase();
+    return (
+      (p.name && p.name.toLowerCase().includes(q)) ||
+      (p.description && p.description.toLowerCase().includes(q)) ||
+      (p.category && p.category.toLowerCase().includes(q)) ||
+      (p.price && String(p.price).toLowerCase().includes(q))
+    );
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
+  const pageIndex = Math.min(currentPage, totalPages);
+  const paginatedProducts = filteredProducts.slice(
+    (pageIndex - 1) * PRODUCTS_PER_PAGE,
+    pageIndex * PRODUCTS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   useEffect(() => {
     // Check if already authenticated
@@ -573,56 +599,129 @@ export default function AdminPage() {
           </motion.div>
         )}
 
-        {/* Products List */}
+        {/* Products Table */}
         <div className="admin-products-list">
-          <h2 className="section-title">Current Products ({products.length})</h2>
-          
+          <div className="admin-table-header">
+            <h2 className="section-title">Current Products ({products.length})</h2>
+            {products.length > 0 && (
+              <div className="admin-search-wrap">
+                <Search size={18} className="admin-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search Products"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="admin-search-input"
+                />
+              </div>
+            )}
+          </div>
+
           {products.length === 0 ? (
             <div className="empty-state">
               <p>No products yet. Add your first product above!</p>
             </div>
-          ) : (
-            <div className="products-grid">
-              {products.map((product) => (
-                <motion.div
-                  key={product.id}
-                  className="admin-product-card"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <img src={product.image_url} alt={product.name} className="admin-product-image" />
-                  
-                  <div className="admin-product-content">
-                    <h3>{product.name}</h3>
-                    <p className="admin-product-category">
-                      {categories.find(c => c.id === product.category)?.name}
-                    </p>
-                    <p className="admin-product-description">{product.description}</p>
-                    <p className="admin-product-price">{product.price}</p>
-                    <p className="admin-product-rating">Rating: {product.rating}/5</p>
-                  </div>
-
-                  <div className="admin-product-actions">
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(product)}
-                      className="edit-button"
-                    >
-                      <Edit size={16} />
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(product.id!)}
-                      className="delete-button"
-                    >
-                      <Trash2 size={16} />
-                      Delete
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+          ) : filteredProducts.length === 0 ? (
+            <div className="empty-state">
+              <p>No products match your search.</p>
             </div>
+          ) : (
+            <>
+              <div className="admin-table-wrap">
+                <table className="admin-products-table">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Image</th>
+                      <th>Product title</th>
+                      <th>Category id</th>
+                      <th>Description</th>
+                      <th>Price (₹)</th>
+                      <th>Date added</th>
+                      <th>Rating</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedProducts.map((product, index) => (
+                      <tr key={product.id}>
+                        <td className="col-no">{(pageIndex - 1) * PRODUCTS_PER_PAGE + index + 1}</td>
+                        <td className="col-image">
+                          {product.image_url ? (
+                            <img src={product.image_url} alt={product.name} width={60} height={60} />
+                          ) : (
+                            <span className="no-image">—</span>
+                          )}
+                        </td>
+                      <td className="col-title" title={product.name}>
+                        {product.name}
+                      </td>
+                      <td className="col-category">{product.category}</td>
+                      <td className="col-description" title={product.description}>
+                        {product.description}
+                      </td>
+                      <td className="col-price">
+                        {product.price ? `₹${Number(product.price).toLocaleString('en-IN')}` : '—'}
+                      </td>
+                      <td className="col-date">
+                        {product.created_at
+                          ? new Date(product.created_at).toLocaleDateString('en-IN', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          : '—'}
+                      </td>
+                      <td className="col-rating">{product.rating}/5</td>
+                      <td className="col-actions">
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(product)}
+                          className="edit-button"
+                        >
+                          <Edit size={14} />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(product.id!)}
+                          className="delete-button"
+                        >
+                          <Trash2 size={14} />
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {totalPages > 1 && (
+              <div className="admin-pagination">
+                <button
+                  type="button"
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={pageIndex <= 1}
+                >
+                  Previous
+                </button>
+                <span className="pagination-info">
+                  Page {pageIndex} of {totalPages}
+                  {searchQuery && ` (${filteredProducts.length} of ${products.length} products)`}
+                </span>
+                <button
+                  type="button"
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={pageIndex >= totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
           )}
         </div>
       </div>
