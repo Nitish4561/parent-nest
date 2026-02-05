@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import ProductCard from '../components/ProductCard';
+import ProductGridSkeleton from '../components/ProductGridSkeleton';
 import { useProducts } from '../hooks/useProducts';
 import { categories } from '../data/categories';
 import type { AmazonProduct } from '../types';
@@ -84,7 +85,7 @@ export default function ProductsPage() {
           </div>
 
           {loading ? (
-            <p className="empty-state">Loading products...</p>
+            <ProductGridSkeleton count={6} />
           ) : sortedProducts.length > 0 ? (
             <motion.div
               className="products-grid"

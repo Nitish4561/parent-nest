@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import ProductCard from '../components/ProductCard';
+import ProductGridSkeleton from '../components/ProductGridSkeleton';
 import { categories } from '../data/categories';
 import { samplePosts } from '../data/sampleData';
 import { useProducts } from '../hooks/useProducts';
@@ -64,7 +65,7 @@ export default function CategoryPage() {
           </p>
           
           {productsLoading ? (
-            <p className="empty-state">Loading products...</p>
+            <ProductGridSkeleton count={6} />
           ) : categoryProducts.length > 0 ? (
             <div className="products-grid">
               {categoryProducts.map(product => (

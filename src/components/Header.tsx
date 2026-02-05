@@ -21,7 +21,7 @@ export default function Header() {
         </Link>
         
         <nav className="nav">
-          {/* <Link to="/" className="nav-link">Home</Link> */}
+          <Link to="/products" className="nav-link">Products</Link>
           {categories.map(category => (
             <Link 
               key={category.id} 

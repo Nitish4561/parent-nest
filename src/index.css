@@ -594,6 +594,101 @@ a.block {
   align-items: stretch;
 }
 
+/* Product skeleton (lazy loading) */
+.product-skeleton {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 380px;
+}
+
+.product-skeleton-image {
+  height: 280px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 0%,
+    #e8eef2 50%,
+    var(--bg-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: product-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.product-skeleton-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.product-skeleton-line {
+  height: 1rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 0%,
+    #e8eef2 50%,
+    var(--bg-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: product-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.product-skeleton-line.short {
+  width: 60%;
+}
+
+.product-skeleton-line.medium {
+  width: 80%;
+}
+
+.product-skeleton-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.product-skeleton-price {
+  width: 5rem;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 0%,
+    #e8eef2 50%,
+    var(--bg-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: product-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.product-skeleton-btn {
+  width: 7rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 0%,
+    #e8eef2 50%,
+    var(--bg-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: product-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes product-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .product-card {
   background: white;
   border-radius: 1rem;
@@ -617,12 +712,16 @@ a.block {
   height: 280px;
   background: var(--bg-light);
   overflow: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 
 .product-badge {
