@@ -86,15 +86,20 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         
         <div className="product-footer">
-          <motion.span
-            className="product-price"
-            whileHover={{ scale: 1.1 }}
-          >
-            {formatPriceINR(product.price)}
-          </motion.span>
-          <RainbowButton href={product.affiliateLink} variant="dark" size="sm" className="font-family-inter p-2">
-          Shop on Amazon
-          </RainbowButton>
+          <div className="product-footer-row">
+            <motion.span
+              className="product-price"
+              whileHover={{ scale: 1.1 }}
+            >
+              {formatPriceINR(product.price)}<sup className="text-red-500">*</sup>
+            </motion.span>
+            <RainbowButton href={product.affiliateLink} variant="dark" size="sm" className="font-family-inter">
+              Shop on Amazon
+            </RainbowButton>
+          </div>
+          <p className="product-price-note">
+            <sup className='text-red-500'></sup>Actual price may differ on Amazon, as it&apos;s dependent on discounts and availability.
+          </p>
         </div>
       </div>
     </motion.div>

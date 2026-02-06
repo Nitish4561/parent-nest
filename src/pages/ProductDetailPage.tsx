@@ -77,10 +77,15 @@ export default function ProductDetailPage() {
               {renderStars(product.rating)}
               <span className="rating-value">{product.rating}</span>
             </div>
-            <p className="product-detail-price">{formatPriceINR(product.price)}</p>
+            <p className="product-detail-price">
+              {formatPriceINR(product.price)}<sup>*</sup>
+            </p>
             <RainbowButton href={product.affiliateLink} variant="dark" size="lg">
-            Shop on Amazon
+              Shop on Amazon
             </RainbowButton>
+            <p className="product-price-note !mt-2">
+              Actual price may differ on Amazon, as it&apos;s dependent on discounts and availability.
+            </p>
           </div>
         </motion.article>
       </div>
