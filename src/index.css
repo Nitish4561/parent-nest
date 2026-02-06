@@ -23,6 +23,9 @@
 .light {
   --dark-text: #2D3748;
   --light-text: #718096;
+  --footer-bg: #2D3748;
+  --footer-text: #E2E8F0;
+  --footer-text-muted: #CBD5E0;
   --bg-light: #F7FAFC;
   --bg-white: #FFFFFF;
   --border-color: #E2E8F0;
@@ -67,6 +70,9 @@
 .dark {
   --dark-text: #F7FAFC;
   --light-text: #A0AEC0;
+  --footer-bg: #1A202C;
+  --footer-text: #E2E8F0;
+  --footer-text-muted: #A0AEC0;
   --bg-light: #1A202C;
   --bg-white: #2D3748;
   --border-color: #4A5568;
@@ -112,6 +118,9 @@
 :root {
   --dark-text: #F7FAFC;
   --light-text: #A0AEC0;
+  --footer-bg: #1A202C;
+  --footer-text: #E2E8F0;
+  --footer-text-muted: #A0AEC0;
   --bg-light: #1A202C;
   --bg-white: #2D3748;
   --border-color: #4A5568;
@@ -842,11 +851,57 @@ a.block {
   100% { background-position: -200% 0; }
 }
 
+/* Border beam - rotating gradient border */
+@keyframes border-beam-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.border-beam-rotator {
+  animation: border-beam-spin var(--beam-duration, 6s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+  animation-direction: var(--beam-direction, normal);
+  will-change: transform;
+}
+
+/* Animated border glow for category cards - visible "beam" effect */
+@keyframes border-beam-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 2px var(--beam-color),
+      0 0 16px 2px var(--beam-color),
+      0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+  50% {
+    box-shadow: 0 0 0 4px var(--beam-color),
+      0 0 24px 6px var(--beam-color),
+      0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.category-card-with-beam {
+  animation: border-beam-glow 2.5s ease-in-out infinite;
+}
+
+/* Border beam - animatable angle for conic-gradient border */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-beam-rotate {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
 .product-card {
   background: var(--card-bg);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: var(--shadow-md);
+  border: 1px solid transparent;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -855,9 +910,18 @@ a.block {
   min-height: 0;
 }
 
+.dark .product-card {
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-xl);
+}
+
+.dark .product-card:hover {
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .product-image-wrapper {
@@ -1029,8 +1093,8 @@ a.block {
 
 /* Footer */
 .footer {
-  background: var(--dark-text);
-  color: white;
+  background: var(--footer-bg);
+  color: var(--footer-text);
   padding: 3rem 1rem 1.5rem;
 }
 
@@ -1057,7 +1121,7 @@ a.block {
 }
 
 .footer-description {
-  color: #CBD5E0;
+  color: var(--footer-text);
   line-height: 1.7;
   max-width: 600px;
   font-size: 1rem;
@@ -1069,19 +1133,19 @@ a.block {
 
 .footer-disclaimer p {
   font-size: 0.9rem;
-  color: #A0AEC0;
+  color: var(--footer-text-muted);
   line-height: 1.6;
 }
 
 .footer-disclaimer strong {
-  color: #CBD5E0;
+  color: var(--footer-text);
 }
 
 .footer-bottom {
-  border-top: 1px solid #4A5568;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 1.5rem;
   text-align: center;
-  color: #CBD5E0;
+  color: var(--footer-text);
 }
 
 /* Old footer styles kept for compatibility */
@@ -1104,7 +1168,7 @@ a.block {
 }
 
 .footer-links a {
-  color: #CBD5E0;
+  color: var(--footer-text);
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -1118,12 +1182,12 @@ a.block {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  color: #CBD5E0;
+  color: var(--footer-text);
 }
 
 .footer-note {
   font-size: 0.85rem;
-  color: #A0AEC0;
+  color: var(--footer-text-muted);
   margin-top: 1rem;
   line-height: 1.5;
 }
@@ -1428,11 +1492,16 @@ a.block {
   padding: 0.6rem 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
-  background: white;
+  background: var(--card-bg);
   font-size: 1rem;
   color: var(--dark-text);
   cursor: pointer;
   min-width: 200px;
+}
+
+.products-filter-select option {
+  background: var(--card-bg);
+  color: var(--dark-text);
 }
 
 .products-filter-select:focus {
@@ -1469,7 +1538,7 @@ a.block {
   align-items: start;
   max-width: 900px;
   margin: 0 auto;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1.25rem;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1479,7 +1548,7 @@ a.block {
 .product-detail-image-wrap {
   aspect-ratio: 1;
   overflow: hidden;
-  background: var(--bg-light);
+  background: var(--card-bg);
 }
 
 .product-detail-image {
@@ -2519,6 +2588,19 @@ a.block {
     0 0 0 1px rgba(255, 107, 107, 0.25),
     0 6px 20px 0 rgba(72, 219, 251, 0.3),
     0 6px 28px 0 rgba(255, 159, 243, 0.25);
+}
+
+/* Dark mode: make "Shop on Amazon" button stand out from dark cards */
+.dark .rainbow-button-dark {
+  background: linear-gradient(#fff, #f7fafc) padding-box,
+    linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-3), var(--color-4), var(--color-5)) border-box;
+  color: #1a202c;
+}
+
+.dark .rainbow-button-dark:hover {
+  color: #1a202c;
+  background: linear-gradient(#f7fafc, #edf2f7) padding-box,
+    linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-3), var(--color-4), var(--color-5)) border-box;
 }
 
 @keyframes rainbow {

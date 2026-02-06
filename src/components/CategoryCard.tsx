@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Category } from '../types';
+import { BorderBeam } from '@/components/ui/border-beam';
 
 interface CategoryCardProps {
   category: Category;
@@ -21,9 +22,10 @@ export default function CategoryCard({ category }: CategoryCardProps) {
       <motion.div
         whileHover={{ y: -8 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="category-card-modern"
+        className="category-card-modern category-card-with-beam relative overflow-hidden"
+        style={{ ["--beam-color" as string]: category.color } as React.CSSProperties}
       >
-        <div className="category-content-modern">
+        <div className="category-content-modern relative z-10">
           {/* <div className="category-icon-wrapper" style={{ color: category.color }}>
             <IconComponent size={48} strokeWidth={1.5} />
           </div>
@@ -37,11 +39,11 @@ export default function CategoryCard({ category }: CategoryCardProps) {
             whileHover={{ x: 5 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
-            Explore Articles <ArrowRight size={18} strokeWidth={2} />
+            Explore Articless <ArrowRight size={18} strokeWidth={2} />
           </motion.div>
         </div>
         
-        <div className="category-image-wrapper">
+        <div className="category-image-wrapper relative z-10">
           <motion.img
             src={category.imageUrl}
             alt={category.name}
@@ -50,6 +52,25 @@ export default function CategoryCard({ category }: CategoryCardProps) {
             transition={{ duration: 0.3 }}
           />
         </div>
+        {/* Border beam on top so the ring is visible; transparent center so content shows through */}
+        <BorderBeam
+          duration={6}
+          borderWidth={4}
+          transparentCenter
+          colorFrom={category.color}
+          colorTo={category.color}
+          className="!z-20"
+        />
+        <BorderBeam
+          duration={6}
+          delay={3}
+          borderWidth={4}
+          transparentCenter
+          reverse
+          colorFrom={category.color}
+          colorTo={category.color}
+          className="!z-20"
+        />
       </motion.div>
     </Link>
   );
