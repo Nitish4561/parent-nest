@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { categories } from '../data/categories';
+import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 
 export default function Header() {
   return (
@@ -31,6 +32,7 @@ export default function Header() {
               {category.name}
             </Link>
           ))}
+          <AnimatedThemeToggler />
         </nav>
       </div>
     </header>

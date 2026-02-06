@@ -13,21 +13,144 @@
   --primary-pink: #FF6B9D;
   --primary-teal: #4ECDC4;
   --primary-orange: #FFB03B;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Light Mode Variables */
+.light {
   --dark-text: #2D3748;
   --light-text: #718096;
   --bg-light: #F7FAFC;
   --bg-white: #FFFFFF;
   --border-color: #E2E8F0;
-  
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  
+  --hero-bg: linear-gradient(135deg, #FFE9F1 0%, #E6F9F7 100%);
+  --card-bg: #FFFFFF;
+  --card-hover-bg: rgba(0, 0, 0, 0.02);
+
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* Shadcn variables for light mode */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+}
+
+/* Dark Mode Variables */
+.dark {
+  --dark-text: #F7FAFC;
+  --light-text: #A0AEC0;
+  --bg-light: #1A202C;
+  --bg-white: #2D3748;
+  --border-color: #4A5568;
+  --hero-bg: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+  --card-bg: #2D3748;
+  --card-hover-bg: rgba(255, 255, 255, 0.05);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+  /* Shadcn variables for dark mode */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --radius: 0.5rem;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}
+
+/* Default to dark mode */
+:root {
+  --dark-text: #F7FAFC;
+  --light-text: #A0AEC0;
+  --bg-light: #1A202C;
+  --bg-white: #2D3748;
+  --border-color: #4A5568;
+  --hero-bg: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+  --card-bg: #2D3748;
+  --card-hover-bg: rgba(255, 255, 255, 0.05);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+  /* Shadcn variables for dark mode */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --radius: 0.5rem;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
 }
 
 body {
@@ -37,6 +160,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-white);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Container */
@@ -164,9 +288,37 @@ body {
   font-size: 1.1rem;
 }
 
+/* Theme Toggle */
+.theme-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--dark-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 1rem;
+}
+
+.theme-toggle-button:hover {
+  border-color: var(--primary-teal);
+  background: var(--primary-teal);
+  color: white;
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, #FFE9F1 0%, #E6F9F7 100%);
+  background: var(--hero-bg);
   padding: 4rem 1rem;
   text-align: center;
 }
@@ -198,7 +350,8 @@ body {
 }
 
 .badge {
-  background: white;
+  background: var(--card-bg);
+  color: var(--dark-text);
   padding: 0.6rem 1.25rem;
   border-radius: 0.5rem;
   font-size: 0.9rem;
@@ -263,7 +416,7 @@ body {
 }
 
 .category-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   padding: 2rem;
   text-decoration: none;
@@ -312,7 +465,7 @@ a.block {
 }
 
 .category-card-modern {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
@@ -389,7 +542,7 @@ a.block {
   position: relative;
   min-height: 280px;
   overflow: hidden;
-  background: white;
+  background: var(--card-bg);
   flex: 1 1 auto;
 }
 
@@ -418,7 +571,7 @@ a.block {
 }
 
 .blog-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -556,7 +709,7 @@ a.block {
   height: 48px;
   border-radius: 50%;
   border: none;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   color: var(--primary-teal);
   cursor: pointer;
@@ -690,7 +843,7 @@ a.block {
 }
 
 .product-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1028,23 +1181,23 @@ a.block {
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1rem;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .category-hero-title {
     font-size: 2rem;
   }
-  
+
   .category-hero-icon {
     font-size: 3.5rem;
   }
-  
+
   .blog-grid,
   .products-grid,
   .categories-grid {
@@ -1505,7 +1658,7 @@ a.block {
 }
 
 .admin-form-container {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 1rem;
   margin-bottom: 3rem;
@@ -1555,6 +1708,8 @@ a.block {
   border-radius: 0.5rem;
   font-size: 1rem;
   font-family: inherit;
+  background: var(--card-bg);
+  color: var(--dark-text);
   transition: border-color 0.3s;
 }
 
@@ -1626,7 +1781,7 @@ a.block {
 .admin-search-wrap {
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
@@ -1659,7 +1814,7 @@ a.block {
 
 .admin-table-wrap {
   overflow-x: auto;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
@@ -1686,7 +1841,7 @@ a.block {
 }
 
 .admin-products-table tbody tr:hover {
-  background: rgba(0, 0, 0, 0.02);
+  background: var(--card-hover-bg);
 }
 
 .admin-products-table .col-no {
@@ -1777,7 +1932,8 @@ a.block {
   padding: 0.5rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
-  background: white;
+  background: var(--card-bg);
+  color: var(--dark-text);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -1963,7 +2119,7 @@ a.block {
 }
 
 .logout-button {
-  background: white;
+  background: var(--card-bg);
   color: var(--dark-text);
   border: 1px solid var(--border-color);
   padding: 0.75rem 1.25rem;
@@ -1993,7 +2149,7 @@ a.block {
 }
 
 .login-container {
-  background: white;
+  background: var(--card-bg);
   padding: 3rem;
   border-radius: 1.5rem;
   box-shadow: var(--shadow-xl);
@@ -2045,6 +2201,8 @@ a.block {
   border: 2px solid var(--border-color);
   border-radius: 0.5rem;
   font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--dark-text);
   transition: all 0.3s;
 }
 
@@ -2125,12 +2283,11 @@ a.block {
   font-weight: 600;
 }
 
-
 /* Admin Setup Guide */
 .admin-setup-guide {
   max-width: 800px;
   margin: 0 auto;
-  background: white;
+  background: var(--card-bg);
   padding: 3rem;
   border-radius: 1rem;
   box-shadow: var(--shadow-lg);
@@ -2286,11 +2443,11 @@ a.block {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r;
   }
-  
+
   .animate-shimmer {
     animation: shimmer 2s linear infinite;
   }
-  
+
   .bg-gradient-radial {
     background: radial-gradient(circle, var(--tw-gradient-stops));
   }
@@ -2367,4 +2524,9 @@ a.block {
 @keyframes rainbow {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }
