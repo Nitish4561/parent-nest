@@ -5,7 +5,6 @@ import CategoryCard from '../components/CategoryCard';
 import BlogCard from '../components/BlogCard';
 import ProductCarousel from '../components/ProductCarousel';
 import AnimatedSection from '../components/AnimatedSection';
-import { ParentingTipsMarquee } from '../components/ParentingTipsMarquee';
 import { categories } from '../data/categories';
 import { samplePosts } from '../data/sampleData';
 import { useProducts } from '../hooks/useProducts';
