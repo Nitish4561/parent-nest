@@ -92,6 +92,16 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS article_ids TEXT DEFAULT '[]';
 
 This stores a JSON array of article IDs (e.g. `["1","2"]`) so each product can be linked to one or more articles.
 
+### Add blog content column (for product page articles)
+
+To allow blog/comparison content on each product page, add the `blog_content` column. In **SQL Editor** run:
+
+```sql
+ALTER TABLE products ADD COLUMN IF NOT EXISTS blog_content TEXT;
+```
+
+This stores optional Markdown text that is shown below the product on the product detail page.
+
 ## Step 5: Get Your API Keys
 
 1. Click **"Settings"** (gear icon) in the left sidebar

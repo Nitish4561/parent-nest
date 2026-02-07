@@ -54,6 +54,7 @@ export function useProducts(category?: string) {
         category: p.category,
         rating: p.rating ?? 0,
         articleIds: parseArticleIds(p.article_ids),
+        blogContent: p.blog_content ?? undefined,
       }));
 
       setProducts(formattedData);

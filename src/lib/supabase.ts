@@ -35,5 +35,7 @@ export interface Product {
   rating: number;
   /** JSON array of article IDs this product is linked to, e.g. '["1","2"]' */
   article_ids?: string;
+  /** Optional Markdown blog/comparison content shown on the product page */
+  blog_content?: string | null;
   created_at?: string;
 }

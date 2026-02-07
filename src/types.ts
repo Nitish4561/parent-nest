@@ -20,6 +20,8 @@ export interface AmazonProduct {
   rating: number;
   /** Article IDs this product is linked to (shown on those article pages) */
   articleIds?: string[];
+  /** Optional Markdown blog/comparison content shown on the product detail page */
+  blogContent?: string | null;
 }
 
 export interface Category {

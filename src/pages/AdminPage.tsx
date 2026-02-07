@@ -5,6 +5,7 @@ import { supabase, isSupabaseConfigured as checkSupabaseSetup, type Product } fr
 import { categories } from '../data/categories';
 import { samplePosts } from '../data/sampleData';
 import AdminLogin from '../components/AdminLogin';
+import BlogContentEditor from '../components/BlogContentEditor';
 
 export default function AdminPage() {
   const formContainerRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,7 @@ export default function AdminPage() {
     category: 'to-be-parents',
     rating: 5,
     article_ids: '[]',
+    blog_content: '',
   });
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -125,6 +127,34 @@ export default function AdminPage() {
 
       return data.publicUrl;
     } catch (error: any) {
+      if (error.message?.includes('Bucket not found')) {
+        throw new Error('Storage bucket not set up. Please create "products" bucket in Supabase Storage (see SUPABASE-SETUP.md) or use image URL instead.');
+      }
+      throw error;
+    }
+  };
+
+  /** Upload image for blog content (stored in content-images/ in same bucket) */
+  const uploadBlogImage = async (file: File): Promise<string> => {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `content-images/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('products')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage
+        .from('products')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (error: any) {
       // If bucket doesn't exist, show helpful message
       if (error.message?.includes('Bucket not found')) {
         throw new Error('Storage bucket not set up. Please create "products" bucket in Supabase Storage (see SUPABASE-SETUP.md) or use image URL instead.');
@@ -175,6 +205,7 @@ export default function AdminPage() {
         ...formData,
         image_url: imageUrl,
         article_ids: formData.article_ids ?? '[]',
+        blog_content: formData.blog_content || null,
       };
 
       if (editingProduct?.id !== undefined && editingProduct?.id !== null) {
@@ -189,6 +220,7 @@ export default function AdminPage() {
           category: productData.category,
           rating: productData.rating,
           article_ids: productData.article_ids ?? '[]',
+          blog_content: productData.blog_content ?? null,
         };
         const { data, error } = await supabase
           .from('products')
@@ -262,6 +294,7 @@ export default function AdminPage() {
       category: normalized.category ?? 'to-be-parents',
       rating: typeof normalized.rating === 'number' ? normalized.rating : 5,
       article_ids: normalized.article_ids ?? '[]',
+      blog_content: normalized.blog_content ?? '',
     });
     setSelectedImage(null);
     setImagePreview('');
@@ -298,6 +331,7 @@ export default function AdminPage() {
       category: 'to-be-parents',
       rating: 5,
       article_ids: '[]',
+      blog_content: '',
     });
     setEditingProduct(null);
     setShowForm(false);
@@ -418,6 +452,7 @@ export default function AdminPage() {
                     category: 'to-be-parents',
                     rating: 5,
                     article_ids: '[]',
+                    blog_content: '',
                   });
                   setEditingProduct(null);
                   setSelectedImage(null);
@@ -571,6 +606,17 @@ export default function AdminPage() {
                       </label>
                     ))}
                   </div>
+                </div>
+
+                <div className="form-group full-width">
+                  <label>Blog / comparison content (optional)</label>
+                  <p className="field-hint">Markdown article shown below the product on the product page. Use the buttons to insert images (upload) and links.</p>
+                  <BlogContentEditor
+                    value={formData.blog_content ?? ''}
+                    onChange={(v) => setFormData({ ...formData, blog_content: v })}
+                    onUploadImage={uploadBlogImage}
+                    minHeight="240px"
+                  />
                 </div>
 
                 <div className="form-group">

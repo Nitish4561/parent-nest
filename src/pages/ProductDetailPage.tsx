@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import { useProducts } from '../hooks/useProducts';
 import RainbowButton from '../components/RainbowButton';
 
@@ -88,6 +89,21 @@ export default function ProductDetailPage() {
             </p>
           </div>
         </motion.article>
+
+        {product.blogContent && product.blogContent.trim() && (
+          <article className="article-content product-detail-blog">
+            <div className="container-article">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="article-body product-blog-body"
+              >
+                <ReactMarkdown>{product.blogContent}</ReactMarkdown>
+              </motion.div>
+            </div>
+          </article>
+        )}
       </div>
     </div>
   );
